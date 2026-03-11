@@ -1,23 +1,4 @@
 
-
-i want web app like djnago to handle this
-Excellent idea! Let’s build this career counseling expert system as a Django web app. I’ll walk you through a simple structure:
-
-🏗 Project Setup
-Create Django project
-
-bash
-django-admin startproject career_counseling
-cd career_counseling
-python manage.py startapp counseling
-Add app to settings
-
-python
-# career_counseling/settings.py
-INSTALLED_APPS = [
-    ...,
-    'counseling',
-]
 📂 App Structure
 Code
 career_counseling/
