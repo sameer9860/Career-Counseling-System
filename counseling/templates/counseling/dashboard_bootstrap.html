@@ -1,0 +1,98 @@
+{% extends "counseling/base.html" %}
+
+{% block title %}Career Counseling Dashboard{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card card-shadow h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 mb-0 text-primary">Counseling Records</h2>
+                    <a href="{% url 'counseling_form' %}" class="btn btn-sm btn-primary">
+                        New Counseling Session
+                    </a>
+                </div>
+                <p class="text-muted mb-3">Recent students and their suggested career paths.</p>
+
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Student</th>
+                                <th scope="col">Grades</th>
+                                <th scope="col">Interest</th>
+                                <th scope="col">Suggested Career Path</th>
+                                <th scope="col" class="text-end">Report</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ student.name }}</strong><br>
+                                        <small class="text-muted">
+                                            {{ student.subject|default:"No subject" }}
+                                        </small>
+                                    </td>
+                                    <td>{{ student.grades }}%</td>
+                                    <td>{{ student.interest }}</td>
+                                    <td style="max-width: 260px;">
+                                        <small>{{ student.suggestion }}</small>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{% url 'generate_pdf' student.id %}" class="btn btn-sm btn-outline-primary">
+                                            Download PDF
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        No counseling records yet. <a href="{% url 'counseling_form' %}">Start with a new session.</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card card-shadow h-100">
+            <div class="card-body p-4">
+                <h2 class="h5 mb-3 text-primary">Career Path Trends</h2>
+                <p class="text-muted mb-3">Most common suggested careers across all students.</p>
+
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Career Path</th>
+                                <th scope="col" class="text-end">Number of Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trend in trends %}
+                                <tr>
+                                    <td>{{ trend.suggestion }}</td>
+                                    <td class="text-end">{{ trend.count }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">
+                                        No trend data yet. Add some counseling sessions first.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
