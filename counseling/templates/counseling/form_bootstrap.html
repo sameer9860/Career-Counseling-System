@@ -1,0 +1,85 @@
+{% extends "counseling/base.html" %}
+
+{% block title %}Career Counseling Form{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-shadow">
+            <div class="card-body p-4 p-md-5">
+                <h2 class="card-title h4 mb-3 text-primary">Career Counseling Expert System</h2>
+                <p class="text-muted mb-4">
+                    Fill in your academic details and interests. Our rule-based expert system will suggest
+                    a suitable career path for you.
+                </p>
+
+                <form method="post" class="row g-3">
+                    {% csrf_token %}
+                    <div class="col-md-6">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" name="name" class="form-control" required placeholder="e.g., Samir Ahmed">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Average Grade Percentage</label>
+                        <input type="number" name="grades" class="form-control" required min="0" max="100" placeholder="e.g., 82">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Interest Area</label>
+                        <select name="interest" class="form-select" required>
+                            <option value="" selected disabled>Select interest</option>
+                            <option>Science</option>
+                            <option>Math</option>
+                            <option>Arts</option>
+                            <option>Technology</option>
+                            <option>Business</option>
+                            <option>Social Studies</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Favorite Subject</label>
+                        <input type="text" name="subject" class="form-control" placeholder="e.g., Physics, History">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Hobbies</label>
+                        <input type="text" name="hobbies" class="form-control" placeholder="e.g., Coding, Drawing, Reading">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Personality Traits</label>
+                        <input type="text" name="traits" class="form-control" placeholder="e.g., Analytical, Creative, Social">
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-between align-items-center mt-3">
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                            View Dashboard
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            Get Career Suggestion
+                        </button>
+                    </div>
+                </form>
+
+                {% if suggestion %}
+                    <hr class="my-4">
+                    <div class="alert alert-success mb-0">
+                        <h3 class="h5 mb-2">Suggested Career Path</h3>
+                        <p class="mb-0">{{ suggestion }}</p>
+                        {% if student %}
+                            <div class="mt-3">
+                                <a href="{% url 'generate_pdf' student.id %}" class="btn btn-sm btn-outline-light bg-success text-white">
+                                    Download Career Report (PDF)
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
